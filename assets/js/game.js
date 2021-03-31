@@ -74,6 +74,7 @@ var startGame = function () {
   playerHealth = 100;
   playerAttack = 10;
   playerMoney = 10;
+
   for (var i = 0; i < enemyNames.length; i++) {
     // if player is still alive, keep fighting
     if (playerHealth > 0) {
@@ -91,6 +92,13 @@ var startGame = function () {
 
       // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
       fight(pickedEnemyName);
+
+      if (playerHealth > 0 && i < enemyNames.length - 1) {
+        var storeConfirm = window.confirm("check out my wares")
+        if (storeConfirm) {
+          shop();
+        }
+      }
     }
     // if player isn't alive, stop the game
     else {
@@ -98,12 +106,13 @@ var startGame = function () {
       break;
     }
   }
+
   endGame();
 };
-startGame();
-var endGame = function() {
+
+var endGame = function () {
   // win statement 
-  if  (playerHealth > 0) {
+  if (playerHealth > 0) {
     window.alert("You win!");
   }
   else {
@@ -117,4 +126,45 @@ var endGame = function() {
   else {
     window.alert("goodbye");
   }
-  };
+};
+var shop = function () {
+  var shopOptionPrompt = window.prompt(
+    "UPGRADE, REPAIR, LEAVE");
+  switch (shopOptionPrompt) {
+    case "repair":
+    case "REPAIR":
+      if (playerMoney >= 7) {
+        window.alert("Repairing 20 health... the bill is 7 bucks");
+        // under the hood stuff
+        playerHealth = playerHealth + 20;
+        playerMoney = playerMoney - 7;
+      }
+      else {
+        window.alert("YOU AINT GOT THE MONEY BOSS!!");
+      }
+      break;
+
+    case "upgrade":
+    case "UPGRADE":
+      if (playerMoney >= 7) {
+        window.alert("Strappin' on the BIG guns boss, that'll be 7 doll hairs");
+        playerAttack = playerAttack + 6;
+        playerMoney = playerMoney - 7;
+      }
+      else {
+        window.alert("Im trying to run a buisness here! You aint got the green!");
+      }
+      break;
+
+    case "leave":
+    case "LEAVE":
+      window.alert("you dont what anything boss? then why dont you get outta here!@");
+      break;
+
+    default:
+      window.alert("Im hard a hearing boss whaddya sayin?")
+      shop();
+      break;
+  }
+};
+startGame();
